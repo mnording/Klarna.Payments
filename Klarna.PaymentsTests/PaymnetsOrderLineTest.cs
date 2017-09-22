@@ -17,7 +17,7 @@ namespace Klarna.PaymentsTests
         [TestMethod]
         public void MustBeAbleToEditAmounts()
         {
-            var t = new PaymentsOrderLine("test", 2, 10000, 100);
+            var t = new PaymentsOrderLine("test", 2, 10000, 1000);
             t.TotalTaxAmount = 1;
             t.TotalAmount = 1;
             t.TotalDiscountAmount = 1;
@@ -26,10 +26,10 @@ namespace Klarna.PaymentsTests
         [TestMethod]
         public void MustGetIntBackFromAmounts()
         {
-            var t = new PaymentsOrderLine("test", 2, 10000, 100);
+            var t = new PaymentsOrderLine("test", 2, 10000, 1000);
             var i = 0;
             i = t.TotalTaxAmount;
-            Assert.AreEqual(t.TotalTaxAmount, 198);
+            Assert.AreEqual(t.TotalTaxAmount, 1818);
         }
     }
 }
