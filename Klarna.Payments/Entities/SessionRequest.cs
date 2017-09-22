@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Klarna.Entities;
 using Newtonsoft.Json;
 
 namespace Klarna.Payments.Entities

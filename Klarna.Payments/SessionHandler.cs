@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Net.Security;
-using System.Text;
-using System.Threading.Tasks;
 using Klarna.Entities;
 using Klarna.Exception;
 using Klarna.Helpers;
@@ -17,22 +12,19 @@ namespace Klarna.Payments
 {
     public class SessionHandler
     {
-        readonly JsonRequest json;
-        readonly DigestCreator digest;
-        private MerchantConfig config;
+        readonly JsonRequest _json;
         private string auth;
-        public SessionHandler(MerchantConfig c)
+        public SessionHandler(MerchantConfig config)
         {
-            json = new JsonRequest();
-            digest = new DigestCreator();
-            config = c;
+            _json = new JsonRequest();
+            var digest = new DigestCreator();
             auth = digest.CreateDigest(config.merchantId, config.sharedSecret);
         }
         public Session CreateSession(SessionRequest req)
         {
             var body = ConvertObjectToString(req);
             
-            var response = json.CreateRequest(auth,new Uri("https://api.playground.klarna.com/credit/v1/sessions"),"POST", body, "Mnording Klarna Payments SDK");
+            var response = _json.CreateRequest(auth,new Uri("https://api.playground.klarna.com/credit/v1/sessions"),"POST", body, "Mnording Klarna Payments SDK");
             using (var reader = new StreamReader(response.GetResponseStream()))
             {
                 string result = reader.ReadToEnd(); // do something fun...
@@ -46,7 +38,7 @@ namespace Klarna.Payments
         {
             var body = ConvertObjectToString(s);
 
-            var response = json.CreateRequest(auth, new Uri("https://api.playground.klarna.com/credit/v1/sessions/"+ sessionId), "POST", body, "Mnording Klarna Payments SDK");
+            var response = _json.CreateRequest(auth, new Uri("https://api.playground.klarna.com/credit/v1/sessions/"+ sessionId), "POST", body, "Mnording Klarna Payments SDK");
             if (response.StatusCode != HttpStatusCode.NoContent)
             {
                 throw new ConnectionException("Could not update session");

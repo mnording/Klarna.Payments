@@ -9,14 +9,11 @@ namespace Klarna.Payments
 {
     public class OrderHandler
     {
-        private MerchantConfig config;
         private JsonRequest Json;
-        private DigestCreator dig;
         private string auth;
         public OrderHandler(MerchantConfig config)
         {
-            this.config = config;
-            dig=new DigestCreator();
+            var dig = new DigestCreator();
             
             Json = new JsonRequest();
             auth = dig.CreateDigest(config.merchantId, config.sharedSecret);

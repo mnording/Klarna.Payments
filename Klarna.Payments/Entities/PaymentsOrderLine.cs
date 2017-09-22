@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Klarna.Entities;
+﻿using Klarna.Entities;
 using Newtonsoft.Json;
 
 namespace Klarna.Payments.Entities
@@ -17,20 +12,11 @@ namespace Klarna.Payments.Entities
         [JsonProperty(PropertyName = "total_tax_amount")]
         public int TotalTaxAmount { get; set; }
 
-        public PaymentsOrderLine(string name, int quantity, int unit_price, int tax_rate) : base(name, quantity,
-            unit_price, tax_rate)
+        public PaymentsOrderLine(string name, int quantity, int unitPrice, int taxRate) : base(name, quantity,
+            unitPrice, taxRate)
         {
             TotalAmount = UnitPrice * Quantity;
-            TotalTaxAmount = CalculateTaxAmountFromGross();
-        }
-        private int CalculateTaxAmountFromGross()
-        {
-            double taxratefordivide = TaxRate / 10000.00;
-            var priceexvat = TotalAmount / (1 + (taxratefordivide));
-            var vatAmount = priceexvat - TotalAmount;
-            vatAmount = vatAmount * -1;
-            vatAmount = Math.Round(vatAmount);
-            return (int)(vatAmount);
+            TotalTaxAmount = CalculateTaxAmountTotal(TotalAmount);
         }
     }
 }
